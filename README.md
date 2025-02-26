@@ -1,7 +1,7 @@
 # 👋 Hello, I'm Daniel Michael
 
 ## 🚀 About Me
-I am a passionate **Full-Stack Developer/Software Engineer ** with expertise in **React, Next.js, Laravel, Python, Flutter, AWS, Puppeteer, and CI/CD pipelines**. I love building scalable applications, automating workflows, and optimizing performance. My experience spans frontend, backend, and DevOps, allowing me to create seamless and efficient solutions.
+I am a passionate **Full-Stack Developer/Software Engineer** with expertise in **React, Next.js, Laravel, Python, Flutter, AWS, Puppeteer, and CI/CD pipelines**. I love building scalable applications, automating workflows, and optimizing performance. My experience spans frontend, backend, and DevOps, allowing me to create seamless and efficient solutions.
 
 I have a keen interest in **software engineering, automation, UI/UX design, cloud infrastructure, and open-source contributions**. I constantly explore new technologies to enhance my skills and solve real-world problems.
 
