@@ -16,7 +16,7 @@ I have a keen interest in **software engineering, automation, UI/UX design, clou
 - 🖥️ **Desktop Apps**: Electron.js
 
 ### **Backend Development**
-- 🛠 **Languages & Frameworks**: PHP (Laravel), Node.js (Express.js), Python
+- 🛠 **Languages & Frameworks**: PHP (Laravel), Node.js (Express.js, NestJs), Python (Django)
 - 🗄 **Databases**: MySQL, PostgreSQL, MongoDB, Firebase Firestore
 - 🏗 **API Development**: RESTful APIs, GraphQL, WebSockets
 
