@@ -49,9 +49,10 @@ Always check the **Method:** line for each endpoint before making requests.
    - [Change Password](#change-password)
    - [Update Profile Picture](#update-profile-picture)
 7. [Shipping Addresses](#shipping-addresses)
-8. [Transaction History](#transaction-history)
-9. [Loyalty Program](#loyalty-program)
-10. [Error Handling](#error-handling)
+8. [Wishlist](#wishlist)
+9. [Transaction History](#transaction-history)
+10. [Loyalty Program](#loyalty-program)
+11. [Error Handling](#error-handling)
 
 ---
 
@@ -1230,8 +1231,8 @@ Authorization: Bearer {token}
       "id": 1,
       "customer_id": 1,
       "label": "Home",
-      "address_line_1": "123 Main Street",
-      "address_line_2": "Apt 4B",
+      "address_line1": "123 Main Street",
+      "address_line2": "Apt 4B",
       "city": "Lagos",
       "state": "Lagos State",
       "postal_code": "100001",
@@ -1266,8 +1267,8 @@ Authorization: Bearer {token}
 ```json
 {
   "label": "Home",
-  "address_line_1": "123 Main Street",
-  "address_line_2": "Apt 4B",
+  "address_line1": "123 Main Street",
+  "address_line2": "Apt 4B",
   "city": "Lagos",
   "state": "Lagos State",
   "postal_code": "100001",
@@ -1413,6 +1414,228 @@ Authorization: Bearer {token}
 
 ---
 
+## Wishlist
+
+Manage your favorite items (wishlist) for quick access to items you love.
+
+### Get Wishlist
+
+Get all items in the authenticated customer's wishlist.
+
+**Method:** `GET`
+
+**Endpoint:** `/public/customer/wishlist` or `/customer/wishlist`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "name": "Jollof Rice",
+      "slug": "jollof-rice",
+      "description": "Delicious Nigerian jollof rice",
+      "base_price": 1500.00,
+      "image": "http://example.com/storage/items/jollof-rice.jpg",
+      "is_available": true,
+      "category": {
+        "id": 1,
+        "name": "Main Dishes",
+        "slug": "main-dishes"
+      },
+      "tax": {
+        "type": "percentage",
+        "rate": 7.5
+      },
+      "variations": [
+        {
+          "id": 1,
+          "name": "Large",
+          "price_adjustment": 500.00
+        }
+      ],
+      "extras": [
+        {
+          "id": 1,
+          "name": "Extra Sauce",
+          "price": 100.00
+        }
+      ],
+      "added_at": "2024-12-15T10:30:00.000000Z"
+    }
+  ],
+  "count": 1
+}
+```
+
+---
+
+### Add to Wishlist
+
+Add an item to the customer's wishlist.
+
+**Method:** `POST`
+
+**Endpoint:** `/public/customer/wishlist` or `/customer/wishlist`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "item_id": 1
+}
+```
+
+**Response (201 Created):**
+```json
+{
+  "success": true,
+  "message": "Item added to wishlist successfully",
+  "data": {
+    "item_id": 1,
+    "is_favorite": true
+  }
+}
+```
+
+**Response (200 OK) - If already in wishlist:**
+```json
+{
+  "success": true,
+  "message": "Item is already in your wishlist",
+  "data": {
+    "item_id": 1,
+    "is_favorite": true
+  }
+}
+```
+
+**Error Responses:**
+- `422 Validation Error` - Invalid item_id
+- `404 Not Found` - Item not found
+- `403 Forbidden` - Unauthorized (not a customer)
+
+---
+
+### Remove from Wishlist
+
+Remove an item from the customer's wishlist.
+
+**Method:** `DELETE`
+
+**Endpoint:** `/public/customer/wishlist/{itemId}` or `/customer/wishlist/{itemId}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "message": "Item removed from wishlist successfully",
+  "data": {
+    "item_id": 1,
+    "is_favorite": false
+  }
+}
+```
+
+**Error Responses:**
+- `404 Not Found` - Item not found in wishlist
+- `403 Forbidden` - Unauthorized (not a customer)
+
+---
+
+### Check Wishlist Status
+
+Check if an item is in the customer's wishlist.
+
+**Method:** `GET`
+
+**Endpoint:** `/public/customer/wishlist/check/{itemId}` or `/customer/wishlist/check/{itemId}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "data": {
+    "item_id": 1,
+    "is_favorite": true
+  }
+}
+```
+
+---
+
+### Toggle Wishlist
+
+Toggle an item in/out of the wishlist. If the item is in the wishlist, it will be removed. If not, it will be added.
+
+**Method:** `POST`
+
+**Endpoint:** `/public/customer/wishlist/toggle` or `/customer/wishlist/toggle`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "item_id": 1
+}
+```
+
+**Response (200 OK) - Added:**
+```json
+{
+  "success": true,
+  "message": "Item added to wishlist",
+  "data": {
+    "item_id": 1,
+    "is_favorite": true
+  }
+}
+```
+
+**Response (200 OK) - Removed:**
+```json
+{
+  "success": true,
+  "message": "Item removed from wishlist",
+  "data": {
+    "item_id": 1,
+    "is_favorite": false
+  }
+}
+```
+
+**Error Responses:**
+- `422 Validation Error` - Invalid item_id
+- `403 Forbidden` - Unauthorized (not a customer)
+
+---
+
 ## Transaction History
 
 Get a consolidated transaction history including orders, payments, and loyalty points.
@@ -1486,9 +1709,11 @@ Authorization: Bearer {token}
 ```
 
 **Transaction Types:**
-- `order` - Order transactions
-- `payment` - Payment transactions
-- `loyalty` - Loyalty points transactions
+- `order` - Order transactions (includes order details, payment status, and payment method)
+- `payment` - Payment transactions (includes payment reference and method)
+- `loyalty` - Loyalty points transactions (earned or redeemed points)
+
+**Note:** The `payment_method` field is retrieved from the order's payment_method field or from the associated payment record if available. Supported payment methods include: `cash`, `card`, `online_transfer`, `loyalty_points`, `mixed`, `paystack`.
 
 ---
 
